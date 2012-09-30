@@ -1,0 +1,18 @@
+# crosscram-ws
+
+A web service API for crosscram (https://github.com/baznex/crosscram).
+
+## Usage
+
+To start the web server, run
+
+    lein run <port-num>
+
+Currently, the only access to the web service is through the "/game" path
+segment.  It simply returns a pprinted string of the game object returned when
+a game is played between two instances of the random bot on a board of 8 rows
+and 8 columns.
+
+## License
+
+Distributed under the Eclipse Public License, the same as Clojure.
