@@ -27,7 +27,8 @@ dimensions dim-1 and dim-2."
   (comp/GET "/game" [] (let [bot-fn (:make-move (load-player 'crosscram.samples.random))
                              dim 8
                              g (game bot-fn bot-fn dim dim)]
-                         (json/json-str g))))
+                         (json/json-str g)))
+  (route/not-found "<h1>Page not found</h1>"))
 
 (defn -main [port]
   (ring/run-jetty app {:port (Integer/parseInt port)}))
