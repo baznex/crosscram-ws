@@ -5,7 +5,7 @@
             [crosscram.engine :as engine]
             [crosscram.game :as game]
             [crosscram.samples.random]
-            [clojure.pprint :as pp]))
+            [clojure.data.json :as json]))
 
 (defn- load-player
   "Fetch a player map from a namespace, or nil. The map will contain:
@@ -27,9 +27,7 @@ dimensions dim-1 and dim-2."
   (comp/GET "/game" [] (let [bot-fn (:make-move (load-player 'crosscram.samples.random))
                              dim 8
                              g (game bot-fn bot-fn dim dim)]
-                         (str "<pre>"
-                              (with-out-str (pp/pprint g))
-                              "</pre>"))))
+                         (json/json-str g))))
 
 (defn -main [port]
   (ring/run-jetty app {:port (Integer/parseInt port)}))
