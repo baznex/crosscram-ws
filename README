@@ -1,6 +1,6 @@
 # crosscram-ws
 
-A web service API for crosscram (https://github.com/baznex/crosscram).
+A web service API for crosscram [https://github.com/baznex/crosscram](https://github.com/baznex/crosscram).
 
 ## Usage
 
@@ -9,9 +9,18 @@ To start the web server, run
     lein run <port-num>
 
 Currently, the only access to the web service is through the "/game" path
-segment.  It simply returns a pprinted string of the game object returned when
-a game is played between two instances of the random bot on a board of 8 rows
-and 8 columns.
+segment.  It simply returns a JSON-formatted string of the game object from a game
+played between two bots.
+
+By default the game played is on an 8-by-8 board between two instances of the random bot.
+There are two query parameters available:
+
+* dims: the dimensions of the board are encoded as a comma-separated list of integers between square brackets. For example, dims=[10,20] encodes a board of ten rows and twenty columns. Only two-dimensional boards are currently supported.
+* bots: the bots are similarly encoded as a comma-separated list of namespace names between square brackets.  For example, bots=[crosscram.samples.windowshade-rand,crosscram.samples.reserves-move]. There should be a function called 'make-move' in each of the namespaces given.  See  the crosscram URL given above for details on bot programming.
+
+As a complete example here is a URL for a game played on a board with 6 rows and 6 columns played between the 'biggest-space' and 'eager-walk' bots.  The server is running locally on port 9999.
+
+    http://localhost:9999/game?dims=[6,6]&bots=[crosscram.samples.biggest-space,crosscram.samples.eager-walk]
 
 ## License
 

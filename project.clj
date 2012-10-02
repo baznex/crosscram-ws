@@ -3,6 +3,7 @@
   :dependencies [[org.clojure/clojure "1.3.0"]
                  [compojure "1.1.3"]
                  [ring/ring-jetty-adapter "1.1.6"]
+                 [ring/ring-core "1.1.6"]
                  [org.clojure/data.json "0.1.3"]
                  [crosscram "0.0.1-SNAPSHOT"]]
   :main crosscram-ws.server)

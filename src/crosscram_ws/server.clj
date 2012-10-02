@@ -2,9 +2,10 @@
   (:require [compojure.core :as comp]
             [compojure.route :as route]
             [ring.adapter.jetty :as ring]
+            [ring.middleware.params :as rmp]
             [crosscram.engine :as engine]
             [crosscram.game :as game]
-            [crosscram.samples.random]
+            [crosscram.main]
             [clojure.data.json :as json]))
 
 (defn- load-player
@@ -18,17 +19,28 @@
 (defn- game
   "Returns a game played between bot-a and bot-b (bot fns) on a board with
 dimensions dim-1 and dim-2."
-  [bot-a bot-b dim-1 dim-2]
-  (let [g (game/make-game [dim-1 dim-2] 0)
-        g (engine/play g bot-a bot-b)]
+  [botfns dims]
+  (let [g (game/make-game dims 0)
+        g (engine/play g (first botfns) (second botfns))]
     g))
 
-(comp/defroutes app
-  (comp/GET "/game" [] (let [bot-fn (:make-move (load-player 'crosscram.samples.random))
-                             dim 8
-                             g (game bot-fn bot-fn dim dim)]
-                         (json/json-str g)))
+(defn- get-game
+  [req]
+  (let [dims (if-let [dimstr ((:params req) "dims")]
+               (read-string dimstr)
+               [8 8])
+        botnames (if-let [botstr ((:params req) "bots")]
+                   (read-string botstr)
+                   ['crosscram.samples.random 'crosscram.samples.random])
+        botfns (map #(:make-move (#'crosscram.main/load-player %)) botnames)]
+    (json/json-str (game botfns dims))))
+
+(comp/defroutes routes
+  (comp/GET "/game" [] get-game)
   (route/not-found "<h1>Page not found</h1>"))
+
+(def app (-> routes
+             (rmp/wrap-params)))
 
 (defn -main [port]
   (ring/run-jetty app {:port (Integer/parseInt port)}))
