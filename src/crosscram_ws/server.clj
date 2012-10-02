@@ -8,14 +8,6 @@
             [crosscram.main]
             [clojure.data.json :as json]))
 
-(defn- load-player
-  "Fetch a player map from a namespace, or nil. The map will contain:
-:make-move - The make-move function."
-  [ns-name]
-  (let [ns-sym (symbol ns-name)]
-    (when-let [make-move (ns-resolve ns-sym 'make-move)]
-      {:make-move (deref make-move)})))
-
 (defn- game
   "Returns a game played between bot-a and bot-b (bot fns) on a board with
 dimensions dim-1 and dim-2."
