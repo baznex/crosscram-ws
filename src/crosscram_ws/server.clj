@@ -40,7 +40,7 @@ dimensions dim-1 and dim-2."
           (binding [*print-dup* true
                     *out* wrtr]
             (prn g)))
-        (rur/redirect-after-post "games/test-game.clj")))))
+        (rur/redirect-after-post fname)))))
 
 (defn- get-game
   "Returns the game map for the game whose ID is given in the :id parameter."
