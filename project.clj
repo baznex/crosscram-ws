@@ -5,5 +5,6 @@
                  [ring/ring-jetty-adapter "1.1.6"]
                  [ring/ring-core "1.1.6"]
                  [org.clojure/data.json "0.1.3"]
-                 [crosscram "0.0.1-SNAPSHOT"]]
+                 [crosscram "0.0.1-SNAPSHOT"]
+                 [hiccup "1.0.1"]]
   :main crosscram-ws.server)

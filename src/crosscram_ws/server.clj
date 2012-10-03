@@ -8,7 +8,9 @@
             [crosscram.game :as game]
             [crosscram.main]
             [clojure.data.json :as json]
-            [clojure.java.io :as io]))
+            [clojure.java.io :as io]
+            [hiccup.core :as hiccup]
+            [hiccup.form :as form]))
 
 (defn- game
   "Returns a game played between bot-a and bot-b (bot fns) on a board with
@@ -53,9 +55,27 @@ dimensions dim-1 and dim-2."
         (json/json-str g))
       (rur/not-found "No such game."))))
 
+(defn- create-game
+  "Returns HTML for a form to create a crosscram game."
+  [req]
+  (hiccup/html
+   [:head
+    [:title "Create a game of Crosscram"]]
+   [:body
+    [:h2 "Create a Crosscram Game"]
+    (form/form-to [:post "/game"]
+                  [:div
+                   [:label "Dimensions:"]
+                   (form/text-field "dims")]
+                  [:div
+                   [:label "Bots:"]
+                   (form/text-field "bots")]
+                  (form/submit-button "Create Game"))]))
+
 (comp/defroutes routes
   (comp/GET "/game/:id" [id] get-game)
   (comp/POST "/game" [] post-game)
+  (comp/GET "/create-game" [] create-game)
   (route/not-found "<h1>Page not found</h1>"))
 
 (def app (-> routes
