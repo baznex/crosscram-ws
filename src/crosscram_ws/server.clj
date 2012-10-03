@@ -30,17 +30,16 @@ dimensions dim-1 and dim-2."
             bots (read-string bots)
             botfns (map #(:make-move (#'crosscram.main/load-player %)) bots)
             g (game botfns dims)
-            fname (str "games/"
-                       (->> (rand)
-                            (* 1e6)
-                            int
-                            str)
-                       ".clj")]
+            gidstr (->> (rand)
+                        (* 1e6)
+                        int
+                        str)
+            fname (str "games/" gidstr ".clj")]
         (with-open [wrtr (io/writer fname)]
           (binding [*print-dup* true
                     *out* wrtr]
             (prn g)))
-        (rur/redirect-after-post fname)))))
+        (rur/redirect-after-post (str "/game/" gidstr))))))
 
 (defn- get-game
   "Returns the game map for the game whose ID is given in the :id parameter."
