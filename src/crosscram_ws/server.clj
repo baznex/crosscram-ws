@@ -23,12 +23,12 @@ dimensions dim-1 and dim-2."
 (defn- get-dims
   [req]
   (let [params (:params req)
-        {:strs [dims dim1 dim2]} params]
-    (if (or (nil? dim1) (nil? dim2))
+        {:strs [dims rows cols]} params]
+    (if (or (nil? rows) (nil? cols))
       (when (> (count dims) 0)
         (read-string dims))
-      (when (and (> (count dim1) 0) (> (count dim2) 0))
-        [(read-string dim1) (read-string dim2)]))))
+      (when (and (> (count rows) 0) (> (count cols) 0))
+        [(read-string rows) (read-string cols)]))))
 
 (defn- get-bots
   [req]
