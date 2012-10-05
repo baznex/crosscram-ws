@@ -83,11 +83,17 @@ dimensions dim-1 and dim-2."
     [:h2 "Create a Crosscram Game"]
     (form/form-to [:post "/game"]
                   [:div
-                   [:label "Dimensions:"]
-                   (form/text-field "dims")]
+                   [:label "Number of rows:"]
+                   (form/text-field "rows")]
                   [:div
-                   [:label "Bots:"]
-                   (form/text-field "bots")]
+                   [:label "Number of columns:"]
+                   (form/text-field "cols")]
+                  [:div
+                   [:label "First bot:"]
+                   (form/text-field "bot1")]
+                  [:div
+                   [:label "Second bot:"]
+                   (form/text-field "bot2")]
                   (form/submit-button "Create Game"))]))
 
 (comp/defroutes routes
