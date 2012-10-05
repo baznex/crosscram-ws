@@ -10,7 +10,8 @@
             [clojure.data.json :as json]
             [clojure.java.io :as io]
             [hiccup.core :as hiccup]
-            [hiccup.form :as form]))
+            [hiccup.form :as form]
+            [hiccup.element :as elem]))
 
 (defn- game
   "Returns a game played between bot-a and bot-b (bot fns) on a board with
@@ -96,9 +97,28 @@ dimensions dim-1 and dim-2."
                    (form/text-field "bot2")]
                   (form/submit-button "Create Game"))]))
 
+(defn- get-games
+  "Returns the HTML for the list of games in the database."
+  [req]
+  (let [gamedir "games"
+        gameext ".clj"
+        gameids (->> (file-seq (java.io.File. gamedir))
+                       (map #(.getName %))
+                       (filter #(.endsWith % gameext))
+                       (map #(.substring % 0 (.lastIndexOf % "."))))]
+    (hiccup/html
+     [:head
+      [:title "Create a game of Crosscram"]]
+     [:body
+      [:h2 "Played games:"]
+      [:ul (map (fn [fname]
+                  [:li (elem/link-to (str "game/" fname) fname)])
+                gameids)]])))
+
 (comp/defroutes routes
   (comp/GET "/game/:id" [id] get-game)
   (comp/POST "/game" [] post-game)
+  (comp/GET "/games" [] get-games)
   (comp/GET "/create-game" [] create-game)
   (route/not-found "<h1>Page not found</h1>"))
 
