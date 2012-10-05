@@ -20,17 +20,35 @@ dimensions dim-1 and dim-2."
         g (engine/play g (first botfns) (second botfns))]
     g))
 
+(defn- get-dims
+  [req]
+  (let [params (:params req)
+        {:strs [dims dim1 dim2]} params]
+    (if (or (nil? dim1) (nil? dim2))
+      (when (> (count dims) 0)
+        (read-string dims))
+      (when (and (> (count dim1) 0) (> (count dim2) 0))
+        [(read-string dim1) (read-string dim2)]))))
+
+(defn- get-bots
+  [req]
+  (let [params (:params req)
+        {:strs [bots bot1 bot2]} params]
+    (if (or (nil? bot1) (nil? bot2))
+      (when (> (count bots) 0)
+        (read-string bots))
+      (when (and (> (count bot1) 0) (> (count bot2) 0))
+        [(read-string bot1) (read-string bot2)]))))
+
 (defn- post-game
   "Runs a game of crosscram using the given post parameters and returns a 303
   \"See Other\" response including a link to the game resource."
   [req]
-  (let [params (:params req)
-        {:strs [dims bots]} params]
-    (if (or (nil? dims) (= 0 (count dims)) (nil? bots) (= 0 (count bots)))
+  (let [dims (get-dims req)
+        bots (get-bots req)]
+    (if (or (nil? dims) (nil? bots))
       {:status 400 :body "One or more parameters were missing."}
-      (let [dims (read-string dims)
-            bots (read-string bots)
-            botfns (map #(:make-move (#'crosscram.main/load-player %)) bots)
+      (let [botfns (map #(:make-move (#'crosscram.main/load-player %)) bots)
             g (game botfns dims)
             gidstr (->> (rand)
                         (* 1e6)
