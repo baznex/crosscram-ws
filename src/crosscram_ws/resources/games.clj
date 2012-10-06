@@ -1,9 +1,10 @@
 (ns crosscram-ws.resources.games
   (:require [hiccup.core :as hiccup]
             [hiccup.form :as form]
-            [hiccup.element :as elem]))
+            [hiccup.element :as elem])
+  (:refer-clojure :exclude (get)))
 
-(defn get-games
+(defn get
   "Returns the HTML for the list of games in the database."
   [req]
   (let [gamedir "games"

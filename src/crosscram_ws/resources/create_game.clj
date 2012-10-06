@@ -1,9 +1,10 @@
 (ns crosscram-ws.resources.create-game
   (:require [hiccup.core :as hiccup]
             [hiccup.form :as form]
-            [hiccup.element :as elem]))
+            [hiccup.element :as elem])
+  (:refer-clojure :exclude (get)))
 
-(defn create-game
+(defn get
   "Returns HTML for a form to create a crosscram game."
   [req]
   (hiccup/html

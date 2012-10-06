@@ -7,7 +7,8 @@
             [hiccup.core :as hiccup]
             [hiccup.form :as form]
             [hiccup.element :as elem]
-            [ring.util.response :as rur]))
+            [ring.util.response :as rur])
+  (:refer-clojure :exclude (get)))
 
 (defn- game
   "Returns a game played between bot-a and bot-b (bot fns) on a board with
@@ -37,7 +38,7 @@ dimensions dim-1 and dim-2."
       (when (and (> (count bot1) 0) (> (count bot2) 0))
         [(read-string bot1) (read-string bot2)]))))
 
-(defn post-game
+(defn post
   "Runs a game of crosscram using the given post parameters and returns a 303
   \"See Other\" response including a link to the game resource."
   [req]
@@ -58,7 +59,7 @@ dimensions dim-1 and dim-2."
             (prn g)))
         (rur/redirect-after-post (str "/game/" gidstr))))))
 
-(defn get-game
+(defn get
   "Returns the game map for the game whose ID is given in the :id parameter."
   [req]
   (let [gid ((:params req) :id)

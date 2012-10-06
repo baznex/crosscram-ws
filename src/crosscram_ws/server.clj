@@ -8,10 +8,10 @@
             [crosscram-ws.resources.create-game :as create-game]))
 
 (comp/defroutes routes
-  (comp/GET "/game/:id" [id] game/get-game)
-  (comp/POST "/game" [] game/post-game)
-  (comp/GET "/games" [] games/get-games)
-  (comp/GET "/create-game" [] create-game/create-game)
+  (comp/GET "/game/:id" [id] game/get)
+  (comp/POST "/game" [] game/post)
+  (comp/GET "/games" [] games/get)
+  (comp/GET "/create-game" [] create-game/get)
   (route/not-found "<h1>Page not found</h1>"))
 
 (def app (-> routes
