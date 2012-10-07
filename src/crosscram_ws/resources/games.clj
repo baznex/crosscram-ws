@@ -16,7 +16,7 @@
     gameids))
 
 (defn get
-  "Returns the HTML for the list of games in the database."
+  "Function for a GET on the 'games' resource."
   [req]
   (let [gameids (get-game-ids)
         accept ((:headers req) "accept")

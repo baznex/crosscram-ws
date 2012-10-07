@@ -4,7 +4,7 @@
             [hiccup.element :as elem]))
 
 (defn games-to-html
-  "Return an HTML representaion of the 'games' resource given a seq of IDs."
+  "Return an HTML representaion of the 'games' resource given a collection of IDs."
   [gameids]
   (hiccup/html
    [:head
@@ -14,4 +14,3 @@
     [:ul (map (fn [fname]
                 [:li (elem/link-to (str "game/" fname) fname)])
               gameids)]]))
-
