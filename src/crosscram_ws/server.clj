@@ -5,7 +5,8 @@
             [ring.middleware.params :as rmp]
             [crosscram-ws.resources.games :as games]
             [crosscram-ws.resources.game :as game]
-            [crosscram-ws.resources.create-game :as create-game]))
+            [crosscram-ws.resources.create-game :as create-game]
+            [crosscram-ws.middleware :as ccmw]))
 
 (comp/defroutes routes
   (comp/GET "/game/:id" [id] game/get)
@@ -15,7 +16,8 @@
   (route/not-found "<h1>Page not found</h1>"))
 
 (def app (-> routes
-             (rmp/wrap-params)))
+             (rmp/wrap-params)
+             (ccmw/wrap-accept-from-extension)))
 
 (defn -main [port]
   (ring/run-jetty app {:port (Integer/parseInt port)}))
