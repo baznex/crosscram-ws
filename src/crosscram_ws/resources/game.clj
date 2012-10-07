@@ -1,13 +1,15 @@
 (ns crosscram-ws.resources.game
   (:require [crosscram.engine :as engine]
             [crosscram.game :as game]
+            [crosscram-ws.views.html :as html]
             [crosscram.main]
             [clojure.data.json :as json]
             [clojure.java.io :as io]
             [ring.util.response :as rur])
   (:refer-clojure :exclude (get)))
 
-(def ^:private ct-map {"application/json" json/json-str})
+(def ^:private ct-map {"application/json" json/json-str
+                       "text/html" html/game-to-html})
 
 (defn- play-game
   "Returns a game played between bot-a and bot-b (bot fns) on a board with
@@ -21,8 +23,7 @@ dimensions dim-1 and dim-2."
   "Returns a map of game state of the game with the given id retrieved from the
   store."
   [id]
-  (let [
-        fname (str "games/" id ".clj")
+  (let [fname (str "games/" id ".clj")
         f (java.io.File. fname)]
     (when (.exists f)
       (let [g (with-open [rdr (io/reader f)]
