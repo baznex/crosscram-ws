@@ -10,7 +10,7 @@
             [ring.util.response :as rur])
   (:refer-clojure :exclude (get)))
 
-(defn- game
+(defn- play-game
   "Returns a game played between bot-a and bot-b (bot fns) on a board with
 dimensions dim-1 and dim-2."
   [botfns dims]
@@ -47,7 +47,7 @@ dimensions dim-1 and dim-2."
     (if (or (nil? dims) (nil? bots))
       {:status 400 :body "One or more parameters were missing."}
       (let [botfns (map #(:make-move (#'crosscram.main/load-player %)) bots)
-            g (game botfns dims)
+            g (play-game botfns dims)
             gidstr (->> (rand)
                         (* 1e6)
                         int
