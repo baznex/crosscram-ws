@@ -4,11 +4,10 @@
             [crosscram.main]
             [clojure.data.json :as json]
             [clojure.java.io :as io]
-            [hiccup.core :as hiccup]
-            [hiccup.form :as form]
-            [hiccup.element :as elem]
             [ring.util.response :as rur])
   (:refer-clojure :exclude (get)))
+
+(def ^:private ct-map {"application/json" json/json-str})
 
 (defn- play-game
   "Returns a game played between bot-a and bot-b (bot fns) on a board with
@@ -17,6 +16,18 @@ dimensions dim-1 and dim-2."
   (let [g (game/make-game dims 0)
         g (engine/play g (first botfns) (second botfns))]
     g))
+
+(defn- get-game
+  "Returns a map of game state of the game with the given id retrieved from the
+  store."
+  [id]
+  (let [
+        fname (str "games/" id ".clj")
+        f (java.io.File. fname)]
+    (when (.exists f)
+      (let [g (with-open [rdr (io/reader f)]
+                (read (java.io.PushbackReader. rdr)))]
+        g))))
 
 (defn- get-dims
   [req]
@@ -60,13 +71,16 @@ dimensions dim-1 and dim-2."
         (rur/redirect-after-post (str "/game/" gidstr))))))
 
 (defn get
-  "Returns the game map for the game whose ID is given in the :id parameter."
+  "Returns the game map for the game whose ID is given in the :id parameter of
+the request."
   [req]
   (let [gid ((:params req) :id)
-        fname (str "games/" gid ".clj")
-        f (java.io.File. fname)]
-    (if (.exists f)
-      (let [g (with-open [rdr (io/reader f)]
-                (read (java.io.PushbackReader. rdr)))]
-        (json/json-str g))
+        g (get-game gid)
+        accept ((:headers req) "accept")
+        convfn (ct-map accept)]
+    (if g
+      (if convfn
+          (convfn g)
+          {:status 415
+           :body "Unsupported Media Type"})
       (rur/not-found "No such game."))))
