@@ -3,6 +3,19 @@
             [hiccup.form :as form]
             [hiccup.element :as elem]))
 
+(defn start-to-html
+  "Returns an HTML representaion of the 'start' resource."
+  []
+  (hiccup/html
+   [:html
+    [:head
+     [:title "Welcome to Crosscram!"]]
+    [:body
+     [:h2 "Welcome to Crosscram!"]
+     [:ul
+      [:li (elem/link-to "/create-game" "Create a new game")]
+      [:li (elem/link-to "/games" "List of previously played games")]]]]))
+
 (defn games-to-html
   "Returns an HTML representaion of the 'games' resource given a collection of IDs."
   [gameids]
