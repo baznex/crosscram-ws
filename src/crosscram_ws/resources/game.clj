@@ -2,6 +2,7 @@
   (:require [crosscram.engine :as engine]
             [crosscram.game :as game]
             [crosscram-ws.views.html :as html]
+            [crosscram-ws.views.text :as text]
             [crosscram.main]
             [clojure.data.json :as json]
             [clojure.java.io :as io]
@@ -9,7 +10,8 @@
   (:refer-clojure :exclude (get)))
 
 (def ^:private ct-map {"application/json" json/json-str
-                       "text/html" html/game-to-html})
+                       "text/html" html/game-to-html
+                       "text/plain" text/game-to-text})
 
 (defn- play-game
   "Returns a game played between bot-a and bot-b (bot fns) on a board with
