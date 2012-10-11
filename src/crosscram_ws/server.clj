@@ -15,6 +15,7 @@
   (comp/POST "/game" [] game/post)
   (comp/GET "/games" [] games/get)
   (comp/GET "/create-game" [] create-game/get)
+  (route/files "/")
   (route/not-found "<h1>Page not found</h1>"))
 
 (def app (-> routes
