@@ -66,6 +66,7 @@ dimensions dim-1 and dim-2."
                         (* 1e6)
                         int
                         str)
+            g (assoc g :id gidstr)
             fname (str "games/" gidstr ".clj")]
         (with-open [wrtr (io/writer fname)]
           (binding [*print-dup* true
@@ -83,7 +84,7 @@ the request."
         convfn (ct-map accept)]
     (if g
       (if convfn
-          (convfn g)
-          {:status 415
-           :body "Unsupported Media Type"})
+        (convfn g)
+        {:status 415
+         :body "Unsupported Media Type"})
       (rur/not-found "No such game."))))

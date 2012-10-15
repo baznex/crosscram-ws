@@ -1,7 +1,8 @@
 (ns crosscram-ws.views.html
   (:require [hiccup.core :as hiccup]
             [hiccup.form :as form]
-            [hiccup.element :as elem]))
+            [hiccup.element :as elem]
+            [hiccup.page :as page]))
 
 (defn start-to-html
   "Returns an HTML representaion of the 'start' resource."
@@ -59,8 +60,11 @@
   (hiccup/html
    [:html
     [:head
-     [:title "Crosscram Game"]]
+     [:title "Crosscram Game"]
+     (page/include-js "/js/game.js")
+     [:link {:href (str "/game/" (:id g)) :rel "self"}]]
     [:body
      [:h2 "Crosscram Game"]
      [:div
-      [:canvas {:width 400 :height 400 :style "border:2px solid #000000;"}]]]]))
+      [:canvas#game-canvas {:width 400 :height 400
+                            :style "border:4px solid #000000; box-shadow: 5px 5px 5px #888;"}]]]]))
