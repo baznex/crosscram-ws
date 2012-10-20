@@ -4,12 +4,12 @@
             [crosscram-ws.views.html :as html]
             [crosscram-ws.views.text :as text]
             [crosscram.main]
-            [clojure.data.json :as json]
+            [cheshire.core :as json]
             [clojure.java.io :as io]
             [ring.util.response :as rur])
   (:refer-clojure :exclude (get)))
 
-(def ^:private ct-map {"application/json" json/json-str
+(def ^:private ct-map {"application/json" json/generate-string
                        "text/html" html/game-to-html
                        "text/plain" text/game-to-text})
 
