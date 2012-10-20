@@ -38,14 +38,16 @@
               [:li (elem/link-to "/games" "List of previously played games")]]]))
 
 (defn games-to-html
-  "Returns an HTML representaion of the 'games' resource given a collection of IDs."
-  [gameids]
+  "Returns an HTML representaion of the 'games' resource given a coll of game maps."
+  [games]
   (template "List of Crosscram Games"
             [:div
              [:h2 "Played games:"]
-             [:ul (map (fn [fname]
-                         [:li (elem/link-to (str "game/" fname) fname)])
-                       gameids)]]))
+             [:table
+                [:tr [:th "ID"] [:th "Number of Rows"] [:th "Number of Columns"] [:th "Timestamp"]]
+                (map (fn [game]
+                       [:tr [:td (elem/link-to (str "/game/" (:id game)) (:id game))] [:td ((:dims game) 0)] [:td ((:dims game) 1)] [:td (:timestamp game)]])
+                     games)]]))
 
 (defn create-game-to-html
   "Returns an HTML representaion of the 'create-game' resource."
@@ -70,10 +72,15 @@
 
 (defn game-to-html
   "Returns an HTML representaion of the 'game' resource."
-  [g]
+  [game]
   (let [js-paths ["/js/game.js"]
-        link-maps [{:href (str "/game/" (:id g)) :rel "self"}]]
+        link-maps [{:href (str "/game/" (:id game)) :rel "self"}]]
     (template "Crosscram Game" js-paths link-maps
               [:div
                [:h2 "Crosscram Game"]
+               [:ul
+                [:li (str "ID: " (:id game))]
+                [:li (str "Rows: " ((:dims game) 0))]
+                [:li (str "Columns: " ((:dims game) 1))]
+                [:li (str "Timestamp: " (:timestamp game))]]
                [:canvas#game-canvas {:style "border:4px solid #000000; box-shadow: 5px 5px 5px #888;"}]])))

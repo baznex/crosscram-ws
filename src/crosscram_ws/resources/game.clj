@@ -21,7 +21,7 @@ dimensions dim-1 and dim-2."
         g (engine/play g (first botfns) (second botfns))]
     g))
 
-(defn- get-game
+(defn get-game
   "Returns a map of game state of the game with the given id retrieved from the
   store."
   [id]

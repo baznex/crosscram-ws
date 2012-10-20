@@ -1,5 +1,6 @@
 (ns crosscram-ws.resources.games
-  (:require [crosscram-ws.views.html :as html])
+  (:require [crosscram-ws.resources.game :as game]
+            [crosscram-ws.views.html :as html])
   (:refer-clojure :exclude (get)))
 
 (def ^:private ct-map {"text/html" html/games-to-html})
@@ -15,13 +16,18 @@
                      (map #(.substring % 0 (.lastIndexOf % "."))))]
     gameids))
 
+(defn- get-games
+  "Returns a coll of game maps."
+  []
+  (map #(game/get-game %) (get-game-ids)))
+
 (defn get
   "Function for a GET on the 'games' resource."
   [req]
-  (let [gameids (get-game-ids)
+  (let [games (get-games)
         accept ((:headers req) "accept")
         convfn (ct-map accept)]
     (if convfn
-      (convfn gameids)
+      (convfn games)
       {:status 415
        :body "Unsupported Media Type"})))
