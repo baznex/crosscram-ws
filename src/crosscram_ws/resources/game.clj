@@ -67,6 +67,7 @@ dimensions dim-1 and dim-2."
                         int
                         str)
             g (assoc g :id gidstr)
+            g (assoc g :timestamp (java.util.Date.))
             fname (str "games/" gidstr ".clj")]
         (with-open [wrtr (io/writer fname)]
           (binding [*print-dup* true
