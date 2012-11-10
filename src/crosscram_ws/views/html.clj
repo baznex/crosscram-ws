@@ -17,7 +17,7 @@
         `[:html
           [:head
            [:title ~title]
-                                        ;           ~(page/include-css "/css/crosscram.css")
+           ~(page/include-css "/css/crosscram.css")
            ~@js-includes
            ~@links]
           [:body
@@ -43,10 +43,10 @@
   (template "List of Crosscram Games"
             [:div
              [:h2 "Played games:"]
-             [:table
-                [:tr [:th "ID"] [:th "Number of Rows"] [:th "Number of Columns"] [:th "Timestamp"]]
+             [:table {:border 1}
+                [:tr [:th "ID"] [:th "Number of Rows"] [:th "Number of Columns"] [:th "Timestamp"] [:th "Bot 1"] [:th "Bot 2"]]
                 (map (fn [game]
-                       [:tr [:td (elem/link-to (str "/game/" (:id game)) (:id game))] [:td ((:dims game) 0)] [:td ((:dims game) 1)] [:td (:timestamp game)]])
+                       [:tr [:td (elem/link-to (str "/game/" (:id game)) (:id game))] [:td ((:dims game) 0)] [:td ((:dims game) 1)] [:td (:timestamp game)] [:td (:bot1 game)] [:td (:bot2 game)]])
                      games)]]))
 
 (defn create-game-to-html
@@ -76,11 +76,13 @@
   (let [js-paths ["/js/game.js"]
         link-maps [{:href (str "/game/" (:id game)) :rel "self"}]]
     (template "Crosscram Game" js-paths link-maps
-              [:div
+              [:div#game
                [:h2 "Crosscram Game"]
                [:ul
                 [:li (str "ID: " (:id game))]
                 [:li (str "Rows: " ((:dims game) 0))]
                 [:li (str "Columns: " ((:dims game) 1))]
-                [:li (str "Timestamp: " (:timestamp game))]]
+                [:li (str "Timestamp: " (:timestamp game))]
+                [:li#bot1 (str "Bot 1: " (:bot1 game))]
+                [:li#bot2 (str "Bot 2: " (:bot2 game))]]
                [:canvas#game-canvas {:style "border:4px solid #000000; box-shadow: 5px 5px 5px #888;"}]])))

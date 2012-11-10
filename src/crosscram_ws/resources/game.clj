@@ -66,8 +66,11 @@ dimensions dim-1 and dim-2."
                         (* 1e6)
                         int
                         str)
-            g (assoc g :id gidstr)
-            g (assoc g :timestamp (java.util.Date.))
+            g (-> g
+                  (assoc :id gidstr)
+                  (assoc :timestamp (java.util.Date.))
+                  (assoc :bot1 (clojure.core/get bots 0))
+                  (assoc :bot2 (clojure.core/get bots 1)))
             fname (str "games/" gidstr ".clj")]
         (with-open [wrtr (io/writer fname)]
           (binding [*print-dup* true
