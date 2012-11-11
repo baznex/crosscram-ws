@@ -24,18 +24,18 @@
            [:div#body-wrapper
             [:div#header
              [:h1 "Crosscram"]]
-            [:div#content-wrapper
+            [:div#nav
+             [:h2 "Navigation"]
+             [:ul
+              [:li ~(elem/link-to "/create-game" "Create a New Game")]
+              [:li ~(elem/link-to "/games" "Previously Played Games")]]]
+            [:div#content
              ~body]]]]))))
 
 (defn start-to-html
   "Returns an HTML representaion of the 'start' resource."
   []
-  (template "Welcome to Crosscram!"
-            [:div
-             [:h2 "Welcome to Crosscram!"]
-             [:ul
-              [:li (elem/link-to "/create-game" "Create a new game")]
-              [:li (elem/link-to "/games" "List of previously played games")]]]))
+  (template "Welcome to Crosscram!" nil))
 
 (defn games-to-html
   "Returns an HTML representaion of the 'games' resource given a coll of game maps."

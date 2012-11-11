@@ -1,15 +1,39 @@
 body {
     margin: 0;
     padding: 0;
+    background-color: #F0F0F0;
 }
 
 div#header {
-    background-color: gray;
-    border-bottom: 2px solid black;
-    height: 75px;
+    background-color: lightslategray;
+    border-bottom: 3px solid black;
+    height: 100px;
 }
 
-div#content-wrapper {
+div#content {
+    margin-left: 300px;
+//    border: 1px solid black;
+    padding: 0 1em;
+}
+
+div#nav {
+    position: absolute;
+    left: 0px;
+    top: 100px;
+//    background-color: white;
+//    border-right: 1px solid black;
+    width: 280px;
+    padding: 0 10px;
+}
+
+div#game {
     margin: auto;
-    width: 400px;
+}
+
+canvas {
+    background-color: white;
+}
+
+#header h1 {
+    padding: 1em;
 }

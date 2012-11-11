@@ -1,3 +1,4 @@
+var playerColors = ['red', 'green'];
 
 function Domino(indices, shortSide, color) {
     this.shortSide = shortSide;
@@ -27,10 +28,6 @@ var drawGame = function(game) {
     var canvas = document.getElementById('game-canvas');
     var context = canvas.getContext('2d');
 
-    var playerColors = ['red', 'green'];
-
-    //canvas.style.backgroundColor = 'red';
-
     var boxSizePix = 60;
     var numRows = game['dims'][0];
     var numCols = game['dims'][1];
@@ -59,6 +56,12 @@ var drawGame = function(game) {
 
 window.onload = function() {
 
+    // color the bot text in the list to give context
+    var bot1_li = document.getElementById('bot1');
+    var bot2_li = document.getElementById('bot2');
+    bot1_li.style.color = playerColors[0];
+    bot2_li.style.color = playerColors[1];
+
     // get the 'self' link
     var links = document.getElementsByTagName('link');
     var selfLink;
@@ -82,6 +85,11 @@ window.onload = function() {
 
 	    var gameJSON = JSON.parse(xhr.responseText);
 	    drawGame(gameJSON);
+
+	    // center the canvas
+	    var canvas = document.getElementById('game-canvas');
+	    var gamediv = document.getElementById('game');
+	    gamediv.style.width = canvas.width;
 	}
     }
     xhr.open('GET', url, true);
