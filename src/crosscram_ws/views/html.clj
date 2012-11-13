@@ -53,22 +53,24 @@
   "Returns an HTML representaion of the 'create-game' resource."
   []
   (template "Create a game of Crosscram"
-            [:div
+            [:div#create-game
              [:h2 "Create a Crosscram Game"]
              (form/form-to [:post "/game"]
-                           [:div
-                            [:label "Number of rows:"]
-                            (form/text-field "rows")]
-                           [:div
-                            [:label "Number of columns:"]
-                            (form/text-field "cols")]
-                           [:div
-                            [:label "First bot:"]
-                            (form/text-field "bot1")]
-                           [:div
-                            [:label "Second bot:"]
-                            (form/text-field "bot2")]
-                           (form/submit-button "Create Game"))]))
+                           [:div.row
+                            [:label.lhs "Number of rows:"]
+                            (form/text-field {:class "rhs"} "rows")]
+                           [:div.row
+                            [:label.lhs "Number of columns:"]
+                            (form/text-field {:class "rhs"} "cols")]
+                           [:div.row
+                            [:label.lhs "First bot:"]
+                            (form/text-field {:class "rhs"} "bot1")]
+                           [:div.row
+                            [:label.lhs "Second bot:"]
+                            (form/text-field {:class "rhs"} "bot2")]
+                           [:div.row
+                            [:span.rhs
+                             (form/submit-button "Create Game")]])]))
 
 (defn game-to-html
   "Returns an HTML representaion of the 'game' resource."

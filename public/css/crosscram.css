@@ -23,11 +23,51 @@ div#nav {
 //    background-color: white;
 //    border-right: 1px solid black;
     width: 280px;
-    padding: 0 10px;
+    padding-left: 20px;
 }
 
 div#game {
     margin: auto;
+}
+
+div#create-game {
+    margin: auto;
+    width: 400px;
+//    border: 1px solid black;
+}
+
+div#create-game .lhs {
+    float: left;
+    width: 150px;
+    text-align: right;
+}
+
+div#create-game .rhs {
+    float: right;
+    width: 240px;
+    text-align: left;
+}
+
+div#create-game div.row {
+    clear: both;
+    padding: 5px 0;
+}
+
+#button-span {
+    float: right;
+    width: 240px;
+}
+
+div#create-game h2 {
+//    width: 350px;
+//    border: 1px solid black;
+    text-align: center;
+//    margin: auto;
+}
+
+.clearfix {
+    clear: both;
+//right: 0px;
 }
 
 canvas {
