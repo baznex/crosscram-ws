@@ -49,28 +49,41 @@
                        [:tr [:td (elem/link-to (str "/game/" (:id game)) (:id game))] [:td ((:dims game) 0)] [:td ((:dims game) 1)] [:td (:timestamp game)] [:td (:bot1 game)] [:td (:bot2 game)]])
                      games)]]))
 
+(defn- get-sample-bot-names
+  "Returns a collection of strings which are the namespace names of all bots
+that have a 'make-move' function."
+  []
+  (let [samplesroot "crosscram.samples."
+        bots ["random" "reserves-move" "eager-walk" "biggest-space" "windowshade-rand"]
+        botnames (map #(concat samplesroot %) bots)
+        botnames (map #(apply str %) botnames)]
+    botnames))
+
 (defn create-game-to-html
   "Returns an HTML representaion of the 'create-game' resource."
   []
   (template "Create a game of Crosscram"
             [:div#create-game
              [:h2 "Create a Crosscram Game"]
-             (form/form-to [:post "/game"]
-                           [:div.row
-                            [:label.lhs "Number of rows:"]
-                            (form/text-field {:class "rhs"} "rows")]
-                           [:div.row
-                            [:label.lhs "Number of columns:"]
-                            (form/text-field {:class "rhs"} "cols")]
-                           [:div.row
-                            [:label.lhs "First bot:"]
-                            (form/text-field {:class "rhs"} "bot1")]
-                           [:div.row
-                            [:label.lhs "Second bot:"]
-                            (form/text-field {:class "rhs"} "bot2")]
-                           [:div.row
-                            [:span.rhs
-                             (form/submit-button "Create Game")]])]))
+             (let [botnames (get-sample-bot-names)]
+               (form/form-to [:post "/game"]
+                             [:div.row
+                              [:label.lhs "Number of rows:"]
+                              (form/text-field {:class "rhs"} "rows")]
+                             [:div.row
+                              [:label.lhs "Number of columns:"]
+                              (form/text-field {:class "rhs"} "cols")]
+                             [:div.row
+                              [:label.lhs "First bot:"]
+                              ;(form/text-field {:class "rhs"} "bot1")
+                              (form/drop-down {:class "rhs"} "bot1" botnames)]
+                             [:div.row
+                              [:label.lhs "Second bot:"]
+                              ;(form/text-field {:class "rhs"} "bot2")
+                              (form/drop-down {:class "rhs"} "bot2" botnames)]
+                             [:div.row
+                              [:span.rhs
+                               (form/submit-button "Create Game")]]))]))
 
 (defn game-to-html
   "Returns an HTML representaion of the 'game' resource."
