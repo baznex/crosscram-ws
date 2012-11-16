@@ -2,7 +2,9 @@
   (:require [hiccup.core :as hiccup]
             [hiccup.form :as form]
             [hiccup.element :as elem]
-            [hiccup.page :as page]))
+            [hiccup.page :as page]
+            [clojure.tools.namespace.find :as nsfind]
+            [clojure.java.classpath :as cp]))
 
 (defn- template
   "An HTML template to be used by all or most HTML views"
@@ -53,10 +55,10 @@
   "Returns a collection of strings which are the namespace names of all bots
 that have a 'make-move' function."
   []
-  (let [samplesroot "crosscram.samples."
-        bots ["random" "reserves-move" "eager-walk" "biggest-space" "windowshade-rand"]
-        botnames (map #(concat samplesroot %) bots)
-        botnames (map #(apply str %) botnames)]
+  (let [botnames (->> (nsfind/find-namespaces (cp/classpath))
+                       (map #(str %))
+                       (filter #(.startsWith % "crosscram.samples"))
+                       sort)]
     botnames))
 
 (defn create-game-to-html
