@@ -57,9 +57,16 @@ function CrosscramGame(gameMap) {
 	this.dominoes[move] = new Domino(coords, boxSizePix, playerColors[move % 2]);
     }
 
-    this.drawStep = function(step) {
+    // Draw the gameboard to the canvas. Give an integer as the number of moves
+    // to draw.
+    this.draw = function(step) {
 	// clear the canvas
 	this.ctx.clearRect(0, 0, this.ctx.width, this.ctx.height);
+
+	// if called with zero args, draw all dominoes
+	if (step == undefined) {
+	    step = this.dominoes.length - 1;
+	}
 
 	for (d = 0; d < step + 1; ++d) {
 	    this.dominoes[d].draw(this.ctx);
@@ -90,7 +97,7 @@ window.onload = function() {
 	    var gameJSON = JSON.parse(xhr.responseText);
 	    var numMoves = gameJSON.history.length;
 	    var game = new CrosscramGame(gameJSON);
-	    game.drawStep(numMoves - 1);
+	    game.draw();
 
 	    // center the canvas
 	    var canvas = document.getElementById('game-canvas');
