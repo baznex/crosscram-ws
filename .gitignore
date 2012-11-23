@@ -4,6 +4,7 @@
 *jar
 /lib
 /classes
+/target
 /native
 /.lein-failures
 /checkouts

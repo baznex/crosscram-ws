@@ -24,33 +24,42 @@ function Domino(indices, shortSide, color) {
     }
 }
 
-var drawGame = function(game) {
-    var canvas = document.getElementById('game-canvas');
-    var context = canvas.getContext('2d');
+function CrosscramGame(gameMap) {
 
     var boxSizePix = 60;
-    var numRows = game['dims'][0];
-    var numCols = game['dims'][1];
-    var width = numCols * boxSizePix;
-    var height = numRows * boxSizePix;
-
-    // set the canvas size
+    this.rows = gameMap.dims[0];
+    this.cols = gameMap.dims[1];
+    
+    // get the canvas and set its size
+    var canvas = document.getElementById('game-canvas');
+    var width = this.rows * boxSizePix;
+    var height = this.cols * boxSizePix;
     canvas.width = width;
     canvas.height = height;
-    
-    // for each move in the history
-    numMoves = game.history.length;
-    var dominoes = [];
+
+    // save a reference to the graphics context
+    this.ctx = canvas.getContext('2d');
+
+    // colors
+    var playerColors = ['red', 'green'];
+
+    // set up the dominoes
+    var numMoves = gameMap.history.length;
+    this.dominoes = [];
     for (move = 0; move < numMoves; ++move) {
-	var coords = game.history[move];
+	var coords = gameMap.history[move];
 
 	// create the domino
-	dominoes[move] = new Domino(coords, boxSizePix, playerColors[move % 2]);
+	this.dominoes[move] = new Domino(coords, boxSizePix, playerColors[move % 2]);
     }
 
-    // loop over each domino and draw it
-    for (d = 0; d < numMoves; ++d) {
-	dominoes[d].draw(context);
+    this.drawStep = function(step) {
+	// clear the canvas
+	this.ctx.clearRect(0, 0, this.ctx.width, this.ctx.height);
+
+	for (d = 0; d < step + 1; ++d) {
+	    this.dominoes[d].draw(this.ctx);
+	}
     }
 }
 
@@ -84,7 +93,9 @@ window.onload = function() {
 	    // document.body.appendChild(pre);
 
 	    var gameJSON = JSON.parse(xhr.responseText);
-	    drawGame(gameJSON);
+	    var numMoves = gameJSON.history.length;
+	    var game = new CrosscramGame(gameJSON);
+	    game.drawStep(numMoves - 1);
 
 	    // center the canvas
 	    var canvas = document.getElementById('game-canvas');
