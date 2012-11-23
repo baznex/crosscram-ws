@@ -1,5 +1,3 @@
-var playerColors = ['red', 'green'];
-
 function Domino(indices, shortSide, color) {
     this.shortSide = shortSide;
     this.color = color;
@@ -43,6 +41,12 @@ function CrosscramGame(gameMap) {
     // colors
     var playerColors = ['red', 'green'];
 
+    // color the bot text in the list to give context
+    var bot1_li = document.getElementById('bot1');
+    var bot2_li = document.getElementById('bot2');
+    bot1_li.style.color = playerColors[0];
+    bot2_li.style.color = playerColors[1];
+
     // set up the dominoes
     var numMoves = gameMap.history.length;
     this.dominoes = [];
@@ -65,12 +69,6 @@ function CrosscramGame(gameMap) {
 
 window.onload = function() {
 
-    // color the bot text in the list to give context
-    var bot1_li = document.getElementById('bot1');
-    var bot2_li = document.getElementById('bot2');
-    bot1_li.style.color = playerColors[0];
-    bot2_li.style.color = playerColors[1];
-
     // get the 'self' link
     var links = document.getElementsByTagName('link');
     var selfLink;
@@ -88,9 +86,6 @@ window.onload = function() {
     xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
 	if (xhr.readyState == 4 && xhr.status == 200) {
-	    // var pre = document.createElement('pre');
-	    // pre.textContent = xhr.responseText;
-	    // document.body.appendChild(pre);
 
 	    var gameJSON = JSON.parse(xhr.responseText);
 	    var numMoves = gameJSON.history.length;
