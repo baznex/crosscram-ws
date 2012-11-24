@@ -61,7 +61,7 @@ function CrosscramGame(gameMap) {
     // to draw.
     this.draw = function(step) {
 	// clear the canvas
-	this.ctx.clearRect(0, 0, this.ctx.width, this.ctx.height);
+	this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
 	// if called with zero args, draw all dominoes
 	if (step == undefined) {
@@ -71,7 +71,23 @@ function CrosscramGame(gameMap) {
 	for (d = 0; d < step + 1; ++d) {
 	    this.dominoes[d].draw(this.ctx);
 	}
-    }
+    };
+
+    // set up the slider
+    var slider = document.getElementById('slider');
+    slider.min = 0;
+    slider.max = gameMap.history.length - 1;
+    slider.step = 1;
+    slider.value = gameMap.history.length - 1;
+    slider.game = this;
+    slider.onchange = function() {
+
+    	// get the slider's value as an int
+    	var step = parseInt(this.value);
+
+    	// draw the game at this step
+    	this.game.draw(step);
+    };
 }
 
 window.onload = function() {

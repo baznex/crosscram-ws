@@ -102,4 +102,5 @@ that have a 'make-move' function."
                 [:li (str "Timestamp: " (:timestamp game))]
                 [:li#bot1 (str "Bot 1: " (:bot1 game))]
                 [:li#bot2 (str "Bot 2: " (:bot2 game))]]
-               [:canvas#game-canvas {:style "border:4px solid #000000; box-shadow: 5px 5px 5px #888;"}]])))
+               [:canvas#game-canvas {:style "border:4px solid #000000; box-shadow: 5px 5px 5px #888;"}]
+               [:input#slider {:type "range"}]])))
