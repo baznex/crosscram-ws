@@ -30,8 +30,8 @@ function CrosscramGame(gameMap) {
     
     // get the canvas and set its size
     var canvas = document.getElementById('game-canvas');
-    var width = this.rows * boxSizePix;
-    var height = this.cols * boxSizePix;
+    var width = this.cols * boxSizePix;
+    var height = this.rows * boxSizePix;
     canvas.width = width;
     canvas.height = height;
 
