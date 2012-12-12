@@ -17,7 +17,7 @@ For example, curl can be used to create a game resource as follows:
 
     curl --location --data "dims=[6,6]&bots=[crosscram.samples.windowshade-rand,crosscram.samples.random]" http://localhost:9999/game
     
-The same game resource can also ge created with this:
+The same game resource can also be created with this:
 
     curl --location --data "rows=6&cols=6&bot1=crosscram.samples.windowshade-rand&bot2=crosscram.samples.random" http://localhost:9999/game
     
@@ -25,7 +25,7 @@ Here the server is running locally on port 9999 and the game will be on a 6-by-6
 
 ## Viewing a Game
 
-Send an HTTP GET request to a game resource URI.  If the request is successful, a JSON-formatted game map is returned, otherwise, a 404 response is returned.
+Send an HTTP GET request to a game resource URI.  If the request is successful, an HTML representation of the game is returned (see the note about media types below), otherwise, a 404 response is returned.
 
 As an example, a browser or curl can be used to perform a GET on a URI such as:
 
@@ -57,4 +57,4 @@ The desired media type can be specified using the Accept HTTP header.  Alternati
 
     http://localhost:9999/game/123456.json
 	
-If no extension is specified and not media types have been specified using the Accept header, the default is an HTML representation.  If a media type that is not supported is specified, then status code 415 "Unsupported Media Type" is returned.
+If no extension is specified and no media types have been specified using the Accept header, the default is an HTML representation.  If a media type that is not supported is specified, then status code 415 "Unsupported Media Type" is returned.
