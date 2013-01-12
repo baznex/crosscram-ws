@@ -71,7 +71,11 @@ dimensions dim-1 and dim-2."
                   (assoc :timestamp (java.util.Date.))
                   (assoc :bot1 (clojure.core/get bots 0))
                   (assoc :bot2 (clojure.core/get bots 1)))
-            fname (str "games/" gidstr ".clj")]
+            gamedir "games"
+            fname (str gamedir "/" gidstr ".clj")]
+        (let [dir (java.io.File. gamedir)]
+          (when (not (.exists dir))
+            (.mkdir dir)))
         (with-open [wrtr (io/writer fname)]
           (binding [*print-dup* true
                     *out* wrtr]
